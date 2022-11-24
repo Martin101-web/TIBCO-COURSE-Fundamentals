@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pfx6="http://www.tibco.com/schemas/2. ParseRenderXML/Resources/Schemas/Models/Names.xsd" xmlns:pfx7="http://www.tibco.com/ns/no_namespace_schema_location/Resources/Schemas/Models/Names.xsd" xmlns:pfx8="http://www.tibco.com/schemas/2. ParseRenderXML/Resources/Schemas/Services/ParseRenderNamesXMLRequest.xsd" xmlns:pfx="http://www.tibco.com/schemas/2. ParseRenderXML/Resources/Schemas/Services/ParseRenderCatalogXMLRequest.xsd" xmlns:pfx9="http://www.tibco.com/schemas/2. ParseRenderXML/Resources/Schemas/Services/ParseRenderNamesXMLResponse.xsd" xmlns:pfx2="http://www.tibco.com/schemas/2. ParseRenderXML/Resources/Schemas/Models/Catalog.xsd" xmlns:ns="http://www.tibco.com/pe/WriteToLogActivitySchema" xmlns:pfx3="http://www.tibco.com/schemas/2. ParseRenderXML/Resources/Schemas/Models/Course.xsd" xmlns:pfx4="http://www.tibco.com/schemas/2. ParseRenderXML/Resources/SharedProcesses/WriteToFileResponse.xsd" xmlns:pfx5="http://www.tibco.com/schemas/2. ParseRenderXML/Resources/Schemas/Services/ParseRenderCatalogXMLResponse.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns1="http://www.tibco.com/schemas/0.ProjectZero/Resources/Schemas/Commons/Header.xsd" xmlns:ns4="http://www.tibco.com/schemas/2. ParseRenderXML/Resources/Schemas/Commons/Response.xsd" xmlns:ns3="http://www.tibco.com/schemas/2. ParseRenderXML/Resources/Schemas/Commons/Header.xsd" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns5="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:pd="http://xmlns.tibco.com/bw/process/2003">
+    <xsd:import namespace="http://www.tibco.com/schemas/2. ParseRenderXML/Resources/SharedProcesses/WriteToFileResponse.xsd" schemaLocation="/Resources/Schemas/SharedProcesses/WriteToFileResponse.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/schemas/2. ParseRenderXML/Resources/Schemas/Services/ParseRenderCatalogXMLResponse.xsd" schemaLocation="/Resources/Schemas/Services/ParseRenderCatalogXMLResponse.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/schemas/2. ParseRenderXML/Resources/Schemas/Services/ParseRenderCatalogXMLRequest.xsd" schemaLocation="/Resources/Schemas/Services/ParseRenderCatalogXMLRequest.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/schemas/2. ParseRenderXML/Resources/Schemas/Models/Catalog.xsd" schemaLocation="/Resources/Schemas/Models/Catalog.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/schemas/2. ParseRenderXML/Resources/Schemas/Models/Course.xsd" schemaLocation="/Resources/Schemas/Models/Course.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/ns/no_namespace_schema_location/Resources/Schemas/Models/Names.xsd" schemaLocation="/Resources/Schemas/Models/Names.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/schemas/2. ParseRenderXML/Resources/Schemas/Services/ParseRenderNamesXMLRequest.xsd" schemaLocation="/Resources/Schemas/Services/ParseRenderNamesXMLRequest.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/schemas/2. ParseRenderXML/Resources/Schemas/Services/ParseRenderNamesXMLResponse.xsd" schemaLocation="/Resources/Schemas/Services/ParseRenderNamesXMLResponse.xsd"/>
+    <pd:name>Processes/Services/Parse&amp;RenderNamesXML.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx8:ParseRenderNamesXMLRequest"/>
+    <pd:startX>46</pd:startX>
+    <pd:startY>132</pd:startY>
+    <pd:returnBindings>
+        <pfx9:ParseRenderNamesXMLResponse>
+            <xsl:copy-of select="$Start/pfx8:ParseRenderNamesXMLRequest/ns3:Header"/>
+            <pfx9:Body>
+                <ns4:Response>
+                    <ns4:message>
+                        <xsl:value-of select="&quot;parse and render xml names&quot;"/>
+                    </ns4:message>
+                    <ns4:responseStatus>
+                        <xsl:value-of select="&quot;SUCCESS&quot;"/>
+                    </ns4:responseStatus>
+                    <ns4:data>
+                        <xsl:copy-of select="$Parse-XML/Names"/>
+                    </ns4:data>
+                </ns4:Response>
+            </pfx9:Body>
+        </pfx9:ParseRenderNamesXMLResponse>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx9:ParseRenderNamesXMLResponse"/>
+    <pd:endX>1029</pd:endX>
+    <pd:endY>129</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1664175088049</pd:targetNamespace>
+    <pd:activity name="Read File">
+        <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
+        <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
+        <pd:x>171</pd:x>
+        <pd:y>135</pd:y>
+        <config>
+            <encoding>text</encoding>
+        </config>
+        <pd:inputBindings>
+            <ns2:ReadActivityInputClass>
+                <fileName>
+                    <xsl:value-of select="concat($Start/pfx8:ParseRenderNamesXMLRequest/pfx8:Body/pfx8:sourcePath, $Start/pfx8:ParseRenderNamesXMLRequest/pfx8:Body/pfx8:sourceFileName)"/>
+                </fileName>
+            </ns2:ReadActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Parse XML">
+        <pd:type>com.tibco.plugin.xml.XMLParseActivity</pd:type>
+        <pd:resourceType>ae.activities.XMLParseActivity</pd:resourceType>
+        <pd:x>316</pd:x>
+        <pd:y>134</pd:y>
+        <config>
+            <inputStyle>text</inputStyle>
+            <xsdVersion>default</xsdVersion>
+            <validateOutput>true</validateOutput>
+            <term ref="pfx7:Names"/>
+        </config>
+        <pd:inputBindings>
+            <xmlString>
+                <xsl:value-of select="$Read-File/ns5:ReadActivityOutputTextClass/fileContent/textContent"/>
+            </xmlString>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:group name="Group">
+        <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:x>445</pd:x>
+        <pd:y>50</pd:y>
+        <pd:width>436</pd:width>
+        <pd:height>157</pd:height>
+        <pd:collapsedWidth>57</pd:collapsedWidth>
+        <pd:collapsedHeight>70</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <pd:joinToggle>inherit</pd:joinToggle>
+        <config>
+            <pd:groupType>inputLoop</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+            <pd:over>$Parse-XML/Names/Name</pd:over>
+            <pd:iterationElementSlot>currentName</pd:iterationElementSlot>
+            <pd:indexSlot>index</pd:indexSlot>
+            <pd:activityOutputName/>
+            <pd:accumulateOutput>false</pd:accumulateOutput>
+        </config>
+        <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>Log</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Render XML</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Log</pd:from>
+            <pd:to>Render XML</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:activity name="Log">
+            <pd:type>com.tibco.pe.core.WriteToLogActivity</pd:type>
+            <pd:resourceType>ae.activities.log</pd:resourceType>
+            <pd:x>587</pd:x>
+            <pd:y>133</pd:y>
+            <config>
+                <role>User</role>
+            </config>
+            <pd:inputBindings>
+                <ns:ActivityInput>
+                    <message>
+                        <xsl:value-of select="$currentName/Name"/>
+                    </message>
+                </ns:ActivityInput>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Render XML">
+            <pd:type>com.tibco.plugin.xml.XMLRendererActivity</pd:type>
+            <pd:resourceType>ae.activities.XMLRendererActivity</pd:resourceType>
+            <pd:x>718</pd:x>
+            <pd:y>133</pd:y>
+            <config>
+                <renderAsText>text</renderAsText>
+                <validateInput>true</validateInput>
+                <textEncoding>UTF-8</textEncoding>
+                <term ref="pfx7:Name"/>
+            </config>
+            <pd:inputBindings>
+                <Name>
+                    <xsl:value-of select="$currentName/Name"/>
+                </Name>
+            </pd:inputBindings>
+        </pd:activity>
+    </pd:group>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Read File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Read File</pd:from>
+        <pd:to>Parse XML</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Parse XML</pd:from>
+        <pd:to>Group</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Group</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>
